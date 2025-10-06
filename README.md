@@ -2,6 +2,19 @@
 
 StaticJinjaPlus is a tool to build static sites using [Jinja](https://jinja.palletsprojects.com/).
 
+
+## Docker-образ
+Вы можете использовать готовые Docker-образы StaticJinjaPlus.
+
+```bash
+# Рекомендуемая версия (latest)
+docker pull apofiz2036/static-jinja-plus:latest
+
+# Конкретные версии
+docker pull apofiz2036/static-jinja-plus:1.0
+docker pull apofiz2036/static-jinja-plus:2.0
+```
+
 # Content
 
 - [How to install](#How-to-install)

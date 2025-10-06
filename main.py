@@ -1,6 +1,7 @@
 import argparse
 import os
 from pathlib import Path
+import sys
 
 from staticjinja import Site
 
@@ -42,6 +43,30 @@ def main() -> None:
     src_path = args.srcpath
     output_path = args.outpath
     static_path = Path(src_path) / "assets"
+
+    try:
+        if not src_path.exists():
+            print("Отсутствует папка templates, рендеринг невозможен", file=sys.stderr)
+            sys.exit(1)
+    except PermissionError:
+        print("Нет доступа к папке templates, рендеринг невозможен", file=sys.stderr)
+        sys.exit(2)
+
+    try:
+        if not any(src_path.glob("*.html")):
+            print("Не найдено исходных файлов .html в папке templates, рендеринг невозможен", file=sys.stderr)
+            sys.exit(3)
+    except PermissionError:
+        print("Нет доступа к листингу каталога templates, рендеринг невозможен", file=sys.stderr)
+        sys.exit(4)
+
+    html_files = list(src_path.glob("*.html"))
+    for f in html_files:
+        try:
+            with open(f, "r", encoding="utf-8") as file: _ = file.read(1)
+        except PermissionError:
+            print(f"Нет доступа к файлу {f}, рендеринг невозможен", file=sys.stderr)
+            sys.exit(5)
 
     site = Site.make_site(
         searchpath=src_path,
